@@ -1,14 +1,10 @@
 /*------------------------------------------------------------------------------
-    Program 5: March Madness Frenzy
+    March Madness Frenzy:
         At the beginning of program execution, the user enters the name of the file that contains the data
         for the NCAA Tournament to be analyzed. After the entered file has proceeded the user will be prompted to
         select the option to play with the data. And if a user wants to create a team then users will need
         to create an object of the class & will have to pass the values in the class object to add the team.
 
-    Author: Uvaish Bakaliya
-    Date: 04/20/2022
-    Class: CS 141, Spring 2022, UIC
-    System: Mac using Visual Studio Code
 ------------------------------------------------------------------------------*/
 
 #include <iostream>  // For input & output
@@ -31,7 +27,7 @@ private: // The data variable that will hold the data from the file in each defe
     int rank1, rank2, score1, score2, roundNumber, gameNumber, scoreOfPrediction;
 
 public: // To get the data from the file and setting the data from the file to get when needed(All the file data that will be split all the getter and setter for those)
-    // Settter to set the data(set the data from the user given file)
+    // Settler to set the data(set the data from the user given file)
     void setRegion(string theRegion) { region = theRegion; }
     void setTeam1(string theTeam1) { team1 = theTeam1; }
     void setTeam2(string theTeam2) { team2 = theTeam2; }
@@ -89,23 +85,21 @@ void FileData::displayThePredictionResults()
 } // End of utility function(displayThePredictionResults())
 
 // Displaying the Game instructions
-void displayWellcomingMessage()
+void displayWelcomingMessage()
 {
-    cout << "Program 5: March Madness Frenzy" << endl;
-    cout << "CS 141, Spring 2022, UIC\n"
-         << endl;
+    cout << "Program Name: March Madness Frenzy" << endl;
     cout << "This program reads in data from NCAA Basketball Tournaments (aka March Madness). It provides overall information regarding the data, allows you to see the path taken to the championship, uses rankings of teams to determine which region is expected to win at a given round and to find the best underdog team, and calculates point differences within the games. You can also compare the actual brackets to your own predictions!" << endl;
     cout << endl;
 
-} // End of displayWellcomingMessage()
+} // End of displayWelcomingMessage()
 
 // Reading from the file that we got from the user (Reading from the file)
-void readFromFile(string fileName, vector<FileData> &assningFileData)
+void readFromFile(string fileName, vector<FileData> &assignFileData)
 {
     ifstream fileIn;       // Reding the file with the fileIn name
     fileIn.open(fileName); // Opening the file that given by the user
     assert(fileIn.fail() == false);
-    assningFileData.clear();
+    assignFileData.clear();
 
     string line, word; // Reading the file in line(while line),and using the each word var to split the data and set the data to FileData class
     FileData readFile;
@@ -115,7 +109,7 @@ void readFromFile(string fileName, vector<FileData> &assningFileData)
     {
         stringstream splitTheLine(line); // Split the data using the stringStream
 
-        getline(splitTheLine, word, ','); // Rigion
+        getline(splitTheLine, word, ','); // Region
         if (word != " " && word != "")
         {
             readFile.setRegion(word);
@@ -181,7 +175,7 @@ void readFromFile(string fileName, vector<FileData> &assningFileData)
         }
         readFile.setGameNumber(stoi(word)); // score2
 
-        assningFileData.push_back(readFile); // And pushing the data to a FileData class
+        assignFileData.push_back(readFile); // And pushing the data to a FileData class
 
     } // End of while loop
 
@@ -190,24 +184,24 @@ void readFromFile(string fileName, vector<FileData> &assningFileData)
 // The file details and the Size of the file & regions (Menu Option 1)
 void dataInfo(vector<FileData> infoOfFile)
 {
-    vector<string> finalFourContestants, regionCameFrom;                                 // The name of the final contestants team names & their rigions
+    vector<string> finalFourContestants, regionCameFrom;                                 // The name of the final contestants team names & their regions
     cout << "Total number of games played in tournament: " << infoOfFile.size() << endl; // The size of the file
     cout << "The Final Four contestants are: " << endl;
 
     for (unsigned i = 3; i < infoOfFile.size(); i++)
     { // The Final Four contestants starting from the first region
         string regionStr = infoOfFile[i].getRegion();
-        string finalFourConteastTeamName = infoOfFile[i].getWinningTeam();
+        string finalFourContestTeamName = infoOfFile[i].getWinningTeam();
 
         if (find(finalFourContestants.begin(), finalFourContestants.end(), regionStr) == finalFourContestants.end())
-        { // Find the name of the rigion
+        { // Find the name of the region
             finalFourContestants.push_back(regionStr);
-            regionCameFrom.push_back(finalFourConteastTeamName);
+            regionCameFrom.push_back(finalFourContestTeamName);
         }
     }
-    for (unsigned diplayTheRegion = 0; diplayTheRegion < finalFourContestants.size(); diplayTheRegion++)
-    { // Display the rigion and winners
-        cout << "\t" << finalFourContestants[diplayTheRegion] << " region:\t" << regionCameFrom[diplayTheRegion] << endl;
+    for (unsigned displayTheRegion = 0; displayTheRegion < finalFourContestants.size(); displayTheRegion++)
+    { // Display the region and winners
+        cout << "\t" << finalFourContestants[displayTheRegion] << " region:\t" << regionCameFrom[displayTheRegion] << endl;
     }
 
 } // End of dataInfo()
@@ -217,7 +211,7 @@ void pathWinningTeamToTheChampionship(vector<FileData> championship)
 {
     string winnerInChampionship = championship[0].getWinningTeam(); // Champion Ship Team That Won the tournament
     vector<string> teamName1, teamName2, winningTeam;               // Name of the both teams from the champion ship
-    vector<int> gameNumebr, gameRounds;                             // The Round of the games from champion ship
+    vector<int> gameNumber, gameRounds;                             // The Round of the games from champion ship
     cout << "Path to the championship:" << endl;
 
     for (int findPath = championship.size() - 1; findPath >= 0; findPath--)
@@ -227,14 +221,14 @@ void pathWinningTeamToTheChampionship(vector<FileData> championship)
         {
             teamName1.push_back(championship[findPath].getTeam1());
             teamName2.push_back(championship[findPath].getTeam2());
-            gameNumebr.push_back(championship[findPath].getGameNumber());
+            gameNumber.push_back(championship[findPath].getGameNumber());
             winningTeam.push_back(winnerInChampionship);
             gameRounds.push_back(championship[findPath].getRoundNumber());
         }
     }
     for (unsigned displayPath = 0; displayPath < teamName2.size(); displayPath++)
     { // Display the path to a champion ship
-        cout << "Round " << gameRounds[displayPath] << ", Game " << gameNumebr[displayPath] << ": " << teamName1[displayPath] << " vs " << teamName2[displayPath] << ". "
+        cout << "Round " << gameRounds[displayPath] << ", Game " << gameNumber[displayPath] << ": " << teamName1[displayPath] << " vs " << teamName2[displayPath] << ". "
              << "Winner: " << winningTeam[displayPath] << endl;
     } // End of display Loop
 
@@ -243,9 +237,9 @@ void pathWinningTeamToTheChampionship(vector<FileData> championship)
 // The Championship on the board and the lost deferent (Menu Option 3)
 void theChampionshipBasedOnAGivenRound(vector<FileData> roundChampionship)
 {
-    int roundChampionshipInput;                                  // Input of the round
-    vector<int> giveRoundRank, rankOfChapionShips, minOutOfChap; // The ranks in given round, ranks that calculated to champion ship & the min calculation out the given round
-    vector<string> rigionGivenRound, otherRigionTemp;            // Name of the region on given round, and
+    int roundChampionshipInput;                                   // Input of the round
+    vector<int> giveRoundRank, rankOfChampionShips, minOutOfChap; // The ranks in given round, ranks that calculated to champion ship & the min calculation out the given round
+    vector<string> regionGivenRound, otherRegionTemp;             // Name of the region on given round, and
 
     cout << "Enter a round to be evaluated: \n"
          << "   Select 2 for round 2\n"
@@ -262,39 +256,39 @@ void theChampionshipBasedOnAGivenRound(vector<FileData> roundChampionship)
     } // if it is the final then make the user entry of the 5 into 4.
 
     for (unsigned i = 0; i <= roundChampionship.size(); i++)
-    { // Loop thrugh the data and get the Round that entered & the region that found the path to championship on given round
+    { // Loop thrush the data and get the Round that entered & the region that found the path to championship on given round
 
         if (roundChampionshipInput == roundChampionship[i].getRoundNumber())
         { // Find the round
             if (roundChampionship[i].getWinningTeam() == roundChampionship[i].getTeam1())
             { // if found and the winner are team1 then get the rank & region they come from
-                rankOfChapionShips.push_back(roundChampionship[i].getRank1());
-                rigionGivenRound.push_back(roundChampionship[i].getRegion());
+                rankOfChampionShips.push_back(roundChampionship[i].getRank1());
+                regionGivenRound.push_back(roundChampionship[i].getRegion());
             }
             if (roundChampionship[i].getWinningTeam() == roundChampionship[i].getTeam2())
             { // if the winner in team2 then get there rank2 and their region
-                rankOfChapionShips.push_back(roundChampionship[i].getRank2());
-                rigionGivenRound.push_back(roundChampionship[i].getRegion());
+                rankOfChampionShips.push_back(roundChampionship[i].getRank2());
+                regionGivenRound.push_back(roundChampionship[i].getRegion());
             }
         }
     }
 
-    for (unsigned sumOfRanks = 0; sumOfRanks < rigionGivenRound.size(); sumOfRanks++)
-    {                                                                                                // Diplay the Chaplionship
-        minOutOfChap.push_back(rankOfChapionShips[sumOfRanks + 1] + rankOfChapionShips[sumOfRanks]); // Add the next rank of the team with the matching rigion
-        otherRigionTemp.push_back(rigionGivenRound[sumOfRanks]);                                     // the rigions
+    for (unsigned sumOfRanks = 0; sumOfRanks < regionGivenRound.size(); sumOfRanks++)
+    {                                                                                                  // Display the Chaplainship
+        minOutOfChap.push_back(rankOfChampionShips[sumOfRanks + 1] + rankOfChampionShips[sumOfRanks]); // Add the next rank of the team with the matching region
+        otherRegionTemp.push_back(regionGivenRound[sumOfRanks]);                                       // the regions
     }
     int minElementIndex = min_element(minOutOfChap.begin(), minOutOfChap.end()) - minOutOfChap.begin(); // Get the min element from the ranks calculations
 
-    if (otherRigionTemp[minElementIndex] == "Spokane" && roundChampionshipInput == 2)
+    if (otherRegionTemp[minElementIndex] == "Spokane" && roundChampionshipInput == 2)
     {
-        otherRigionTemp[minElementIndex] = "Bridgeport";
+        otherRegionTemp[minElementIndex] = "Bridgeport";
     } // Hard coded entries
-    cout << "\nThe region expected to win is: " << otherRigionTemp[minElementIndex] << endl;
+    cout << "\nThe region expected to win is: " << otherRegionTemp[minElementIndex] << endl;
 
 } // End of theChampionshipBasedOnAGivenRound()
 
-// The best undergod from the file that take the file permenter (Menu Option 4)
+// The best undergo from the file that take the file percenter (Menu Option 4)
 void identifyTheBestUnderdogWithinAGivenRound(vector<FileData> roundUnderdog)
 {
     int findUnderGogInRoundInput;                          // input of the rounds
@@ -367,7 +361,7 @@ void shooInAndNailBitingGamesWithinAGivenRound(vector<FileData> shootAndNail)
             if (shootAndNail[i].getRoundNumber() == shootAndNailRoundInput) // Find the round
             {
                 int shootCalculations = abs(shootAndNail[i].getScore1() - shootAndNail[i].getScore2()); // abs to not get negative numbers
-                roundShootIn.push_back(shootCalculations);                                              // Soirng the calculations of the game score in given round
+                roundShootIn.push_back(shootCalculations);                                              // Stirng the calculations of the game score in given round
                 gameBitingOnGivenRound.push_back(shootAndNail[i].getGameNumber());
                 teamOne.push_back(shootAndNail[i].getTeam1());
                 teamTwo.push_back(shootAndNail[i].getTeam2());
@@ -427,7 +421,7 @@ void shooInAndNailBitingGamesWithinAGivenRound(vector<FileData> shootAndNail)
 // Compare the Bracket & find the wining games (Menu Option 6)
 void predictedBrackets(string predictionsFile, vector<FileData> fileCompareWith)
 {
-    vector<FileData> readFromFileGiveFileName; // Sotring the predicted file data
+    vector<FileData> readFromFileGiveFileName; // Sorting the predicted file data
     string predictedFileInput;                 // the predictions entry
     int countTheGames = 0, score = 0;          // winner count & score of the right corrected winners
 
@@ -436,9 +430,9 @@ void predictedBrackets(string predictionsFile, vector<FileData> fileCompareWith)
 
     for (unsigned i = 0; i < readFromFileGiveFileName.size(); i++)
     { // Find the winning game given the predicted file name
-        // Compare the each name with the actual will and the preducted file
+        // Compare the each name with the actual will and the predicted file
         if (fileCompareWith[i].getWinningTeam() == readFromFileGiveFileName[i].getWinningTeam())
-        {                                                              // Checks the wining team matchies
+        {                                                              // Checks the wining team matches
             countTheGames++;                                           // The count the win game
             score += readFromFileGiveFileName[i].getRoundNumber() * 5; // The Round of the game
         }
@@ -447,7 +441,7 @@ void predictedBrackets(string predictionsFile, vector<FileData> fileCompareWith)
     cout << "This means that you have a score of " << score << "." << endl;
 
     outComeOfPRedictions.setScoreOfPrediction(score);   // Setting the predicted score in class setter
-    outComeOfPRedictions.displayThePredictionResults(); // And dispalying the predictions
+    outComeOfPRedictions.displayThePredictionResults(); // And displaying the predictions
 
 } // End of predictedBrackets()
 
@@ -458,7 +452,7 @@ int main()
     string fileName, predictionFile;           // File inputs
     int menuOption;                            //  7 Menu Option Input
 
-    displayWellcomingMessage();
+    displayWelcomingMessage();
     cout << "Enter the name of the file with the data for the NCAA tournament: ";
     cin >> fileName; // Input file name
 
@@ -498,7 +492,7 @@ int main()
         case 6: // If option 6
             cout << "Enter the name of the file with your predicted brackets: " << endl;
             cin >> predictionFile;
-            predictedBrackets(predictionFile, readFromFileGiveFileName); //  Runing the diffrent file in the function to comppare the bracket
+            predictedBrackets(predictionFile, readFromFileGiveFileName); //  Running the different file in the function to compare the bracket
             break;
         case 7: // If option 7 (exit)
             cout << "Exiting program...";
